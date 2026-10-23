@@ -14,7 +14,15 @@ node bin/potlucktune.js try           # three members over the real DHT
 git config core.hooksPath .githooks   # optional: scan each commit for secrets (needs gitleaks)
 ```
 
-For the real trainer, the eval and `scripts/rehearse.sh`, create `.venv` as in the README's quickstart. With `.venv` present, `pnpm test` also checks that the JavaScript merge and `eval/run.py`'s merge give the same bytes.
+For the real trainer, the eval and `scripts/rehearse.sh`, create the Python environment in the clone:
+
+```sh
+python3 -m venv .venv
+.venv/bin/pip install torch==2.11.0 --index-url https://download.pytorch.org/whl/cu128   # or the CPU build
+.venv/bin/pip install -r trainer/requirements.txt
+```
+
+With `.venv` present, `pnpm test` also checks that the JavaScript merge and `eval/run.py`'s merge give the same bytes.
 
 ## Code map
 

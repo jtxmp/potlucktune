@@ -1,9 +1,17 @@
 {
   "name": "potlucktune",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Federated LoRA fine-tuning over Hyperswarm. Train one adapter on teammates' data without moving it and without a coordinator.",
   "license": "MIT",
   "author": "JT (https://github.com/jtxmp)",
+  "homepage": "https://github.com/jtxmp/potlucktune#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jtxmp/potlucktune.git"
+  },
+  "bugs": {
+    "url": "https://github.com/jtxmp/potlucktune/issues"
+  },
   "keywords": [
     "p2p",
     "peer-to-peer",

@@ -1,6 +1,7 @@
 # PotluckTune
 
 [![test](https://github.com/jtxmp/potlucktune/actions/workflows/test.yml/badge.svg)](https://github.com/jtxmp/potlucktune/actions/workflows/test.yml)
+[![npm](https://img.shields.io/npm/v/potlucktune)](https://www.npmjs.com/package/potlucktune)
 [![license: MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 [![node](https://img.shields.io/badge/node-%3E%3D22-brightgreen)](package.json)
 
@@ -61,19 +62,19 @@ Data never leaves the machine it is on. Adapters (about 0.8 MB each for the defa
 ## Requirements
 
 - Node 22 or later
-- Python 3.10+ with PyTorch, transformers and peft ([trainer/requirements.txt](trainer/requirements.txt)). A GPU helps but is optional: a round of the default config took 4 s on a 4 GB laptop GPU and about 2 minutes on CPU (two trainers sharing a 12-thread laptop CPU).
+- Python with PyTorch, transformers and peft (tested with Python 3.12) ([trainer/requirements.txt](trainer/requirements.txt)). A GPU helps but is optional: a round of the default config took 4 s on a 4 GB laptop GPU and about 2 minutes on CPU (two trainers sharing a 12-thread laptop CPU).
 - The default base model is [Qwen/Qwen2.5-0.5B-Instruct](https://huggingface.co/Qwen/Qwen2.5-0.5B-Instruct) (Apache-2.0), downloaded from Hugging Face on first use.
 
 ## Quickstart
 
 ```sh
-git clone https://github.com/jtxmp/potlucktune && cd potlucktune
-pnpm install
-python3 -m venv .venv
-.venv/bin/pip install torch==2.11.0 --index-url https://download.pytorch.org/whl/cu128   # or the CPU build
-.venv/bin/pip install -r trainer/requirements.txt
-export POTLUCKTUNE_PYTHON=$PWD/.venv/bin/python
-alias potlucktune="node $PWD/bin/potlucktune.js"
+npm install -g potlucktune      # or: pnpm add -g potlucktune
+
+# The trainer's Python environment, once per machine
+python3 -m venv ~/.potlucktune-venv
+~/.potlucktune-venv/bin/pip install torch==2.11.0 --index-url https://download.pytorch.org/whl/cu128   # or the CPU build
+~/.potlucktune-venv/bin/pip install -r https://raw.githubusercontent.com/jtxmp/potlucktune/v0.1.0/trainer/requirements.txt
+export POTLUCKTUNE_PYTHON=~/.potlucktune-venv/bin/python
 ```
 
 1. Each member prints their public key and sends it to the owner:
@@ -121,12 +122,14 @@ JSONL, one example per line. Labels must be in the run's label list.
 ### Try it without Python
 
 ```sh
-node bin/potlucktune.js try
+npx potlucktune try
 ```
 
 Three members on one machine, connected over the public DHT, run three rounds with a stand-in trainer (no model). The joins, posts, blob transfers, hash checks and merges are the real code. It takes about 15 seconds.
 
 ### Rehearse with the real trainer
+
+From a clone, with the Python environment in `.venv`:
 
 ```sh
 .venv/bin/python scripts/make_demo_data.py    # downloads Banking77, builds the 3-member split
