@@ -42,6 +42,9 @@ set -g pane-border-style fg=colour244
 set -g pane-active-border-style fg=colour244
 set -g default-terminal screen-256color
 EOF
+# bob's shell runs in a tmux inside the simulated network. The outer pane title
+# already labels it, so the inner one has no border line.
+sed 's/pane-border-status top/pane-border-status off/' "$W/tmux.conf" > "$W/inner.conf"
 
 # `train` logs to stderr with ISO timestamps. The demo keeps the time of day
 # and the events that show a round's progress; nothing else is changed.
@@ -71,7 +74,7 @@ as alice team add carol "$(as carol id 2>/dev/null)" >/dev/null
 $TM -f "$W/tmux.conf" new-session -d -s demo -x 200 -y 44 "bash --rcfile $W/alice.rc"
 $TM select-pane -t demo:0.0 -T 'alice · home network'
 $TM split-window -h -t demo:0.0 \
-  "$REPO/scripts/simnet.sh --profile hotspot -- tmux -S $W/inner.sock -f $W/tmux.conf new-session -s b 'bash --rcfile $W/bob.rc' 2>/dev/null"
+  "$REPO/scripts/simnet.sh --profile hotspot -- tmux -S $W/inner.sock -f $W/inner.conf new-session -s b 'bash --rcfile $W/bob.rc' 2>/dev/null"
 $TM select-pane -t demo:0.1 -T 'bob · simulated separate network: own NAT, +80 ms, 1% loss'
 $TM split-window -h -t demo:0.1 "bash --rcfile $W/carol.rc"
 $TM select-pane -t demo:0.2 -T 'carol · home network'
@@ -90,6 +93,16 @@ wait_for () {
     sleep 0.2
   done
   echo "timed out waiting for /$3/ in $2" >&2
+  return 1
+}
+# wait_prompt <tmux> <pane> <name>: until the pane's last line is an idle prompt.
+wait_prompt () {
+  local i
+  for i in $(seq 600); do
+    $1 capture-pane -p -J -t "$2" | sed '/^[[:space:]]*$/d' | tail -1 | grep -qE "^$3 [$] ?$" && return 0
+    sleep 0.2
+  done
+  echo "timed out waiting for $3's prompt" >&2
   return 1
 }
 
@@ -113,14 +126,15 @@ play () {
   type "$INNER" $B 'potlucktune train --data tickets.jsonl --rounds 3'
   type "$TM" $C 'potlucktune train --data tickets.jsonl --rounds 3'
   wait_for "$INNER" $B '^Round 3 merged'
-  wait_for "$TM" $A '^Round 3 merged'
-  wait_for "$TM" $C '^Round 3 merged'
+  wait_prompt "$INNER" $B bob
+  wait_prompt "$TM" $A alice
+  wait_prompt "$TM" $C carol
   sleep 2
 
   type "$INNER" $B 'potlucktune eval --data test.jsonl --baseline'
   wait_for "$INNER" $B 'merged adapter: accuracy'
   sleep 2
-  type "$TM" $C '# every member holds the same adapter; no tickets left anyone'"'"'s machine'
+  type "$TM" $C '# all three hold the same adapter, and no tickets left anyone'"'"'s machine'
   sleep 6
   $TM kill-server 2>/dev/null || true
 }

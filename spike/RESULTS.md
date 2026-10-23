@@ -29,6 +29,12 @@ Findings that shaped the code:
 - **Never call `host.addWriter` for the bootstrap writer.** Calling it on the bootstrap core with `{ indexer: false }` throws `ERR_ASSERTION: Invalid checkout ... for batch`. The owner's writer is now bound by the team entry itself, and only other members send join requests.
 - The first version used a Hyperbee view and hit the same assertion, so I switched to a plain Hypercore of JSON entries. The assertion was later traced to the `addWriter` call above; Hyperbee was not retested. The plain log is enough: state is rebuilt by reading it, and it holds a few entries per member per round.
 
+## Full CLI runs
+
+`scripts/rehearse.sh 3` (2026-10-23): alice on the GPU, bob and carol on CPU, separate HOMEs, public DHT, one machine. Rounds took 4 to 6 s of training on the GPU and 121 to 155 s on CPU (two CPU trainers at once); the whole run took 494 s. All three members reported the same merged hash in every round (`a81db7d5a78f`, `f4889899ac66`, `faaf21dfee76`). Bob's copy of the round-3 merge scored 0.908 on the test set; his own round-3 adapter scored 0.388.
+
+`vhs demo/demo.tape` (2026-10-23): all three on the GPU in turn through `scripts/gpu-python.sh`, bob in `scripts/simnet.sh --profile hotspot`. Three rounds in about 95 s, same merged hash on every member, bob's merge 0.917, own adapter 0.396, base model 0.238. CUDA works inside the pasta namespace.
+
 ## Discovery
 
 Three members started at the same moment on one machine on the public DHT often never connected: three of five runs (of `potlucktune try` or an equivalent script) stalled for 120 to 180 s with no connection. PotluckRAG found the cause: Hyperswarm repeats a topic lookup only every 10 minutes. With the same fix (look up again with backoff from 5 s to 60 s while a member is missing), three of three `try` runs completed in 11 to 14 s.

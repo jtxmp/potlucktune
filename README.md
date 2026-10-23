@@ -8,6 +8,10 @@ PotluckTune is a CLI for fine-tuning one LoRA adapter on data held by several pe
 
 It uses the same identity and `team.json` format as [PotluckLLM](https://github.com/jtxmp/potluckllm) and [PotluckRAG](https://github.com/jtxmp/potluckrag).
 
+![Demo: alice, bob and carol each train on their own support tickets for three rounds, every member reports the same merged hash, and bob's merged adapter scores 0.917 against 0.396 for his own](demo/demo.gif)
+
+*Alice, bob and carol each hold tickets for 4 of 12 intents. Bob is on a simulated separate network (own NAT, LAN blocked, 80 ms delay, 1% loss, via `scripts/simnet.sh`). After three rounds all three report the same merged adapter, and on the shared test set bob's copy scores 0.917, against 0.396 for the adapter he trained alone and 0.238 for the base model. Real training of Qwen2.5-0.5B-Instruct on one laptop GPU, which the three members take turns on. About 3 minutes, not sped up. Reproduce with `vhs demo/demo.tape`.*
+
 ## Who it is for
 
 - A few people or organisations who each hold labelled examples they won't hand over (support tickets, internal documents, client data) and want one model that learned from all of them.
