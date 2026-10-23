@@ -1,0 +1,48 @@
+{
+  "name": "potlucktune",
+  "version": "0.0.0",
+  "description": "Federated LoRA fine-tuning over Hyperswarm. Train one adapter on teammates' data without moving it and without a coordinator.",
+  "license": "MIT",
+  "author": "JT (https://github.com/jtxmp)",
+  "keywords": [
+    "p2p",
+    "peer-to-peer",
+    "hyperswarm",
+    "autobase",
+    "holepunch",
+    "federated-learning",
+    "lora",
+    "fine-tuning",
+    "privacy",
+    "cli"
+  ],
+  "type": "module",
+  "bin": {
+    "potlucktune": "bin/potlucktune.js"
+  },
+  "files": [
+    "bin",
+    "src",
+    "trainer/trainer.py",
+    "trainer/requirements.txt"
+  ],
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "test": "vitest run",
+    "prepublishOnly": "pnpm test"
+  },
+  "packageManager": "pnpm@10.33.0",
+  "dependencies": {
+    "autobase": "7.28.2",
+    "corestore": "7.16.1",
+    "hyperblobs": "2.13.0",
+    "hypercore-crypto": "3.7.0",
+    "hyperswarm": "4.17.2"
+  },
+  "devDependencies": {
+    "hyperdht": "6.34.1",
+    "vitest": "5.0.4"
+  }
+}

@@ -1,0 +1,47 @@
+# dependencies
+node_modules/
+
+# secrets and identities
+.potluck/
+# team files hold the topic and member list
+team.json
+.env
+.env.*
+*.pem
+*.key
+*.p12
+*.pfx
+*.jks
+credentials.json
+serviceAccountKey.json
+secrets.yaml
+secrets.json
+.secret
+*.secret
+token.json
+auth.json
+config.local.*
+
+# local data
+*.sqlite
+*.db
+
+# os
+.DS_Store
+Thumbs.db
+
+# python
+__pycache__/
+.venv/
+
+# downloaded datasets (Banking77 is fetched by scripts/make_demo_data.py)
+data/
+
+# run data and adapters
+.potlucktune/
+*.safetensors
+
+# kept local
+AI-WORKFLOW.md
+docs/PRD.md
+docs/contracts.md

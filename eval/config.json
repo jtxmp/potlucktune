@@ -1,0 +1,28 @@
+{
+    "model": "Qwen/Qwen2.5-0.5B-Instruct",
+    "rank": 8,
+    "alpha": 16,
+    "targets": [
+        "q_proj",
+        "v_proj"
+    ],
+    "seed": 1234,
+    "lr": 0.002,
+    "steps": 40,
+    "batch": 8,
+    "maxLen": 96,
+    "labels": [
+        "activate_my_card",
+        "card_arrival",
+        "card_not_working",
+        "cash_withdrawal_charge",
+        "change_pin",
+        "edit_personal_details",
+        "exchange_rate",
+        "lost_or_stolen_card",
+        "pin_blocked",
+        "terminate_account",
+        "top_up_failed",
+        "transfer_not_received_by_recipient"
+    ]
+}

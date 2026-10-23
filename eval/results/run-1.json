@@ -1,0 +1,86 @@
+{
+  "config": {
+    "model": "Qwen/Qwen2.5-0.5B-Instruct",
+    "rank": 8,
+    "alpha": 16,
+    "targets": [
+      "q_proj",
+      "v_proj"
+    ],
+    "seed": 1234,
+    "lr": 0.002,
+    "steps": 40,
+    "batch": 8,
+    "maxLen": 96,
+    "labels": [
+      "activate_my_card",
+      "card_arrival",
+      "card_not_working",
+      "cash_withdrawal_charge",
+      "change_pin",
+      "edit_personal_details",
+      "exchange_rate",
+      "lost_or_stolen_card",
+      "pin_blocked",
+      "terminate_account",
+      "top_up_failed",
+      "transfer_not_received_by_recipient"
+    ]
+  },
+  "rounds": 3,
+  "runs": [
+    {
+      "seed": 1,
+      "local": {
+        "alice": 0.3917,
+        "bob": 0.3375,
+        "carol": 0.3792
+      },
+      "localMean": 0.3695,
+      "fed": 0.9042,
+      "fedByRound": [
+        0.7583,
+        0.8792,
+        0.9042
+      ],
+      "central": 0.9375
+    },
+    {
+      "seed": 2,
+      "local": {
+        "alice": 0.3917,
+        "bob": 0.3542,
+        "carol": 0.3958
+      },
+      "localMean": 0.3806,
+      "fed": 0.8792,
+      "fedByRound": [
+        0.7833,
+        0.8542,
+        0.8792
+      ],
+      "central": 0.9542
+    },
+    {
+      "seed": 3,
+      "local": {
+        "alice": 0.4042,
+        "bob": 0.3583,
+        "carol": 0.4125
+      },
+      "localMean": 0.3917,
+      "fed": 0.9375,
+      "fedByRound": [
+        0.7833,
+        0.8708,
+        0.9375
+      ],
+      "central": 0.9333
+    }
+  ],
+  "mean": {
+    "localMean": 0.3806,
+    "fed": 0.907,
+    "central": 0.9417
+  }
+}

@@ -1,0 +1,10 @@
+# Versions tested with PotluckTune. torch: install the build for your
+# hardware first (https://pytorch.org), e.g. the CUDA 12.8 wheels:
+#   pip install torch==2.11.0 --index-url https://download.pytorch.org/whl/cu128
+torch==2.11.0
+transformers==5.20.2
+peft==0.21.2
+safetensors==0.8.0
+numpy==2.5.4
+huggingface-hub==2.3.0
+accelerate==1.15.0
