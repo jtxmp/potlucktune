@@ -186,15 +186,19 @@ The threat model is in [docs/threat-model.md](docs/threat-model.md). In short:
 - Only keys in `team.json` can connect (Hyperswarm firewall), and only members can write to the run: a join request must be signed by a listed key.
 - Every adapter is checked against the hash in its post before it is merged. Adapters with NaN or Inf values, other tensor names or other shapes stop the merge instead of entering it.
 - The training config comes from the owner, and members validate it: the model must be a Hugging Face id, not a path, and numbers must be in range. Adapters are read with safetensors, never pickle.
-- Not covered: a member can send an adapter trained to degrade or backdoor the model (the merge is a plain mean, not a robust one), and every member receives every other member's adapter, which can leak facts about their data. Secure aggregation and robust merging are open issues.
+- Not covered: a member can send an adapter trained to degrade or backdoor the model (the merge is a plain mean, not a robust one), and every member receives every other member's adapter, which can leak facts about their data. [Robust merging](https://github.com/jtxmp/potlucktune/issues/7) and [secure aggregation](https://github.com/jtxmp/potlucktune/issues/8) are open issues.
 
 ## Limitations
 
-- A round waits for every member. A member who never posts stalls the run until the owner removes them from `team.json`.
+- A round waits for every member. A member who never posts stalls the run until the owner removes them from `team.json` ([#9](https://github.com/jtxmp/potlucktune/issues/9)).
 - Change the member list between runs, not during one; a change mid-round can make members disagree about which posts count (they would see it, as different merge hashes).
-- One run per team file. For a new run, create a new team file.
-- Tested on Linux with one GPU and on CPU. The three-member rehearsals ran on one machine; separate networks were tested only through simulation in the sibling projects.
-- Classification only. The trainer scores labels; generation tasks need a different loss and eval.
+- One run per team file. For a new run, create a new team file ([#12](https://github.com/jtxmp/potlucktune/issues/12)).
+- Tested on Linux with one GPU and on CPU. The three-member rehearsals ran on one machine; separate networks were tested only through simulation ([#1](https://github.com/jtxmp/potlucktune/issues/1)).
+- Classification only. The trainer scores labels; generation tasks need a different loss and eval ([#11](https://github.com/jtxmp/potlucktune/issues/11)).
+
+## Contributing
+
+Issues labelled [`good first issue`](https://github.com/jtxmp/potlucktune/labels/good%20first%20issue) are a good start, and [#1](https://github.com/jtxmp/potlucktune/issues/1) (a run across real networks) needs no code. See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Development
 
