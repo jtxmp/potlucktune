@@ -1,6 +1,10 @@
 # Contributing to PotluckTune
 
-Contributions are welcome, from a docs fix to a robust merge rule. For security problems, follow [SECURITY.md](SECURITY.md) and don't open a public issue.
+Contributions are welcome, from a docs fix to a robust merge rule. Issues labelled [`good first issue`](https://github.com/jtxmp/potlucktune/labels/good%20first%20issue) are small and self-contained. The most useful single contribution is [#1](https://github.com/jtxmp/potlucktune/issues/1): train with two or three members on real, separate networks and post what happened. It needs no GPU.
+
+The larger open problems are where PotluckTune's guarantees stop today: [robust merging](https://github.com/jtxmp/potlucktune/issues/7), [secure aggregation](https://github.com/jtxmp/potlucktune/issues/8) and [rounds that survive a missing member](https://github.com/jtxmp/potlucktune/issues/9). Discuss the design in the issue before writing code.
+
+For questions and ideas, use [Discussions](https://github.com/jtxmp/potlucktune/discussions). For security problems, follow [SECURITY.md](SECURITY.md) and don't open a public issue.
 
 ## Setup
 
